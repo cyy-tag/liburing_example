@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 3.22)
+project(liburing_example)
+set(CMAKE_CXX_STANDARD 20)
+
+link_libraries(uring)
+file(GLOB_RECURSE  SCPP_SRC_LIST "src/*.cpp")
+foreach(v ${SCPP_SRC_LIST})
+    # message(STATUS "test=${v}")
+    string(REGEX MATCH "src/.*" relative_path ${v})
+    string(REGEX REPLACE "src/" "" target_name ${relative_path})
+    # message(STATUS "relative_path=${target_name}")
+    string(REGEX REPLACE ".cpp" "" target_name ${target_name})
+    string(REGEX REPLACE "/|\\." "_" target_name ${target_name})
+    # message(STATUS "relative_path=${target_name}")
+    add_executable(${target_name} ${v})
+endforeach()
+
